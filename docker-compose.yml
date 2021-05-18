@@ -1,0 +1,29 @@
+version: '3.7'
+
+services:
+  inewgent-www:
+    container_name: inewgent-www
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.local
+    restart: always
+    ports:
+      - "5002:5002"
+    volumes:
+      - .:/usr/src/app/:cached
+    environment:
+      APP_ENV: local
+      NODE_ENV: local
+      HTTPS_METHOD: noredirect # support both http and https
+    environment:
+      APP_ENV: local
+    extra_hosts:
+      - inewgent.local:127.0.0.1
+    networks:
+      network-inewgent:
+        aliases:
+          - inewgent.local
+
+networks:
+  network-inewgent:
+    external: true
